@@ -66,34 +66,3 @@ class Criteria:
             raise ValueError("Value should be in range of 0.0 t0 1.0")
         self.values[key] = val
 
-
-class ListCheen:
-    def __init__(self) -> None:
-        self.criterion = {}
-
-    def score(self, option) -> float:
-        return sum(cr.get_score(option) for cr in self.criterion.values())
-
-    def export_list(self, path="./list.tsv"):
-        option2score = {o: self.score(o) for o in OPTIONS}
-        with open(path, "w", encoding="utf-8") as outf:
-            for line in sorted(
-                option2score.items(), key=lambda o2s: o2s[1], reverse=True
-            ):
-                outf.write(str(line[1]) + "\t" + " ".join(line[0]) + "\n")
-        print("list exported to " + path)
-
-    def print_option(self, option) -> None:
-        print("option:", option)
-        
-        for cr in self.criterion.values():
-            print(
-                cr.name,
-                ": ",
-                cr.weight,
-                "*",
-                cr.get_score(option, weighted=False),
-            )
-            # print(cr.values)
-
-        print("sum:\t", sum(cr.get_score(option) for cr in self.criterion.values()))
