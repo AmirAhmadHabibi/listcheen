@@ -1,0 +1,37 @@
+[
+    {
+        "name" : "هزینه تحصیل",
+        "subject" : "P",
+        "initial_weight" : -0.75,
+        "default_value" : 0.0,
+        "is_constant_value" : true
+    },
+    {
+        "name" : "علاقه به رشته",
+        "subject" : "F",
+        "initial_weight" : 1.0,
+        "default_value" : 0.5,
+        "is_constant_value" : false
+    },
+    {
+        "name" : "علاقه به دانشگاه",
+        "subject" : "U",
+        "initial_weight" : 0.5,
+        "default_value" : 0.5,
+        "is_constant_value" : false
+    },
+    {
+        "name" : "پسرانه",
+        "subject" : "FUP",
+        "initial_weight" : 0.0,
+        "default_value" : 0.0,
+        "is_constant_value" : true
+    },
+    {
+        "name" : "دخترانه",
+        "subject" : "FUP",
+        "initial_weight" : 100,
+        "default_value" : 0.0,
+        "is_constant_value" : true
+    }
+]
