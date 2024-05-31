@@ -2,7 +2,6 @@
 
 import itertools
 
-
 def file2list(path) -> list:
     with open(path, "r", encoding="utf-8") as inf:
         file_list = list(line.strip() for line in inf)
@@ -23,7 +22,6 @@ CRITERIA_SUBJECTS = {
     "PROGRAM_TYPES": PROGRAM_TYPES,
     "OPTIONS": OPTIONS,
 }  # indicating the part of the subject a criteria
-
 
 # There are two main group of numbers that we are to figure out:
 #  (1) Criteria weight

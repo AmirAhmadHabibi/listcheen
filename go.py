@@ -21,10 +21,6 @@ lc.export_list()
 lc.print_option(("روانشناسی", "تهران", "روزانه"))
 # lc.print_option(("روانشناسی", "تهران", "شبانه"))
 
-# step 0.5: add criteria category and their super weight
-# each category should be normalized so that number of criterion wouldn't affect a category's total weight
-# TODO
-
 # Step 2: fill in the weights:
 # TODO
 
