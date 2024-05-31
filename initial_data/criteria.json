@@ -43,5 +43,23 @@
         "default_value": 0.0,
         "different_for_each_option": true,
         "is_constant_value": true
+    },
+    {
+        "name": "بازارکار",
+        "category2weight": {
+            "FIELD_OF_STUDY": 1.0
+        },
+        "default_value": 0.5,
+        "different_for_each_option": false,
+        "is_constant_value": true
+    },
+    {
+        "name": "اسکان",
+        "category2weight": {
+            "UNIVERSITY": 1.0
+        },
+        "default_value": 1.0,
+        "different_for_each_option": true,
+        "is_constant_value": false
     }
 ]

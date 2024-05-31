@@ -15,7 +15,6 @@ def ask_user(lc):
                     key = tuple(key.split("|")) if "|" in key else key
                     cr[key] = val
     
-    lc.print_option(("روانشناسی", "تهران", "روزانه"))
     # ask the weights:
     with open(USER_INPUT_WEIGHTS_PATH, encoding="utf-8") as f:
         for cat, cat_dict in json.load(f).items():
@@ -29,11 +28,11 @@ def ask_user(lc):
 
 
 lc = ListCheen()
-lc.print_option(("روانشناسی", "تهران", "روزانه"))
 ask_user(lc)
 
 lc.export_list()
-lc.print_option(("روانشناسی", "تهران", "روزانه"))
+# lc.print_option(("روانشناسی", "تهران", "روزانه"))
+lc.print_option(('روانشناسی', 'شیراز', 'روزانه'))
 # lc.print_option(("روانشناسی", "تهران", "شبانه"))
 
 

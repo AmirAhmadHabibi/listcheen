@@ -62,7 +62,6 @@ class ListCheen:
     def print_option(self, option) -> None:
         print("option:", option)
         for cr in self.criteria.values():
-            
             for c, w in cr.category2weight.items():
                 print(
                     cr.name,
