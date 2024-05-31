@@ -2,6 +2,7 @@
 
 import itertools
 
+
 def file2list(path) -> list:
     with open(path, "r", encoding="utf-8") as inf:
         file_list = list(line.strip() for line in inf)
@@ -16,43 +17,66 @@ PROGRAM_TYPES = file2list("./initial_data/daftarcheh/program_types.txt")
 #           OPTIONS = [(FIELDS_OF_STUDY[0], UNIVERSITIES[0], PROGRAM_TYPE[0]), ...]
 OPTIONS = list(itertools.product(*[FIELDS_OF_STUDY, UNIVERSITIES, PROGRAM_TYPES]))
 
-CRITERIA_SUBJECTS = {
-    "FIELDS_OF_STUDY": FIELDS_OF_STUDY,
-    "UNIVERSITIES": UNIVERSITIES,
-    "PROGRAM_TYPES": PROGRAM_TYPES,
-    "OPTIONS": OPTIONS,
-}  # indicating the part of the subject a criteria
+CRITERION_CATEGORIES = {
+    "FIELD_OF_STUDY": FIELDS_OF_STUDY,
+    "UNIVERSITY": UNIVERSITIES,
+    "PROGRAM_TYPE": PROGRAM_TYPES,
+}  # indicating the part of the subject a criterion
+
 
 # There are two main group of numbers that we are to figure out:
-#  (1) Criteria weight
-#  (2) Criteria value for each of its subject values (i.e. each university if the subject is 'U)
-class Criteria:
+#  (1) criterion weight
+#  (2) criterion value for each of its subject values (i.e. each university if the subject is 'U)
+class Criterion:
     def __init__(
-        self, name: str, subject: str, weight:float, default_value:float, is_constant_value:bool
+        self,
+        name: str,
+        category2weight: dict,
+        default_value: float,
+        different_for_each_option: bool,
+        is_constant_value: bool,
     ) -> None:
-        assert subject in CRITERIA_SUBJECTS
 
         self.name = name
-        self.subject = subject
-        self.weight = weight
+        self.category2weight = category2weight
+        self.different_for_each_option = (
+            different_for_each_option  # if multicat then diffetent for each option
+        )
         self.is_constant_value = is_constant_value
+
+        if different_for_each_option:
+            value_rows = OPTIONS
+        elif len(category2weight) == 1:
+            # there can only be one category
+            cat = list(category2weight.keys())[0]
+            value_rows = CRITERION_CATEGORIES[cat]
+        else:
+            raise Exception("shouldn't have more than 1 category!")
+
         self.values = {
-            s: default_value for s in CRITERIA_SUBJECTS[subject]
+            s: default_value for s in value_rows
         }  # all valued from 0.0 to 1.0
 
-    def get_score(self, option: tuple, weighted=True) -> float:
+    def get_score(self, option: tuple, weighted=True, cat=None) -> float:
         score = 0.0
-        if self.subject == "FIELDS_OF_STUDY":
-            score = self[option[0]]
-        elif self.subject == "UNIVERSITIES":
-            score = self[option[1]]
-        elif self.subject == "PROGRAM_TYPES":
-            score = self[option[2]]
-        elif self.subject == "OPTIONS":
-            score = self[option]
+        if self.different_for_each_option:
+            score = self.values[option]
+        elif len(self.category2weight) == 1:
+            cat = list(self.category2weight.keys())[0]
+            if cat == "FIELD_OF_STUDY":
+                score = self.values[option[0]]
+            elif cat == "UNIVERSITY":
+                score = self.values[option[1]]
+            elif cat == "PROGRAM_TYPE":
+                score = self.values[option[2]]
+            else:
+                raise Exception("what?!")
+
+        else:
+            raise Exception("shouldn't have more than 1 category!")
 
         if weighted:
-            return self.weight * score
+            return self.category2weight[cat] * score
         else:
             return score
 
@@ -63,4 +87,3 @@ class Criteria:
         if val < 0.0 or val > 1.0:
             raise ValueError("Value should be in range of 0.0 t0 1.0")
         self.values[key] = val
-

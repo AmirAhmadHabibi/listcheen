@@ -1,0 +1,47 @@
+[
+    {
+        "name": "هزینه تحصیل",
+        "category2weight": {
+            "PROGRAM_TYPE": -1.0
+        },
+        "default_value": 0.0,
+        "different_for_each_option": false,
+        "is_constant_value": true
+    },
+    {
+        "name": "علاقه به رشته",
+        "category2weight": {
+            "FIELD_OF_STUDY": 1.0
+        },
+        "default_value": 0.5,
+        "different_for_each_option": false,
+        "is_constant_value": false
+    },
+    {
+        "name": "علاقه به دانشگاه",
+        "category2weight": {
+            "UNIVERSITY": 1.0
+        },
+        "default_value": 0.5,
+        "different_for_each_option": false,
+        "is_constant_value": false
+    },
+    {
+        "name": "پسرانه",
+        "category2weight": {
+            "UNIVERSITY": 0.0
+        },
+        "default_value": 0.0,
+        "different_for_each_option": true,
+        "is_constant_value": true
+    },
+    {
+        "name": "دخترانه",
+        "category2weight": {
+            "UNIVERSITY": 0.0
+        },
+        "default_value": 0.0,
+        "different_for_each_option": true,
+        "is_constant_value": true
+    }
+]

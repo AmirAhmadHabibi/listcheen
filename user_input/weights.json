@@ -1,0 +1,22 @@
+{
+    "FIELD_OF_STUDY": {
+        "category_weight": 2.0,
+        "criteria": {
+            "علاقه به رشته": 1.0
+        }
+    },
+    "UNIVERSITY": {
+        "category_weight": 1.0,
+        "criteria": {
+            "علاقه به دانشگاه": 1.0,
+            "پسرانه": 0.0,
+            "دخترانه": 0.0
+        }
+    },
+    "PROGRAM_TYPE": {
+        "category_weight": 1.0,
+        "criteria": {
+            "هزینه تحصیل": -1.0
+        }
+    }
+}

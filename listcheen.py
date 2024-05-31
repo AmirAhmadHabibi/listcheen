@@ -1,41 +1,43 @@
 # This code is only for algorithmic porpuses and it's by no means optimized!
 
 import json
-from data_structures import OPTIONS, Criteria
+from data_structures import OPTIONS, Criterion
 
-CRITERION_PATH = "./initial_data/criterion.json"
+criteria_PATH = "./initial_data/criteria.json"
 CONSTANT_VALUES_PATH = "./initial_data/constant_values/"
-SUBJECT2WEIGHT_PATH = "./initial_data/subject_weight.json"
-
-with open(SUBJECT2WEIGHT_PATH, encoding="utf-8") as f:
-    SUBJECT2WEIGHT = json.load(f)
-# all criterion under each subject would be normalized to (0.0:1.0) and then multiplied by subject weight
-# so that number of criterion wouldn't affect a category's total weight
+CATEGORY_WEIGHT_PATH = "./initial_data/category_weight.json"
 
 
 
 class ListCheen:
     def __init__(self) -> None:
-        # initiate the criterion
-        self.criterion = {}
-        self.subject_count = {}
-        with open(CRITERION_PATH, encoding="utf-8") as f:
+
+        # all criteria under each subject would be normalized by the number of cri and then multiplied by subject weight
+        # so that number of criteria wouldn't affect a category's total weight
+        with open(CATEGORY_WEIGHT_PATH, encoding="utf-8") as f:
+            self.category_weight = json.load(f)
+
+        # initiate the criteria
+        self.criteria = {}
+        self.cat_count = {}
+        with open(criteria_PATH, encoding="utf-8") as f:
             for c_dict in json.load(f):
-                self.criterion[c_dict["name"]] = Criteria(
+                self.criteria[c_dict["name"]] = Criterion(
                     c_dict["name"],
-                    c_dict["subject"],
-                    c_dict["initial_weight"],
+                    c_dict["category2weight"],
                     c_dict["default_value"],
+                    c_dict["different_for_each_option"],
                     c_dict["is_constant_value"],
                 )
 
-                if c_dict["subject"] in self.subject_count:
-                    self.subject_count[c_dict["subject"]] += 1.0
-                else:
-                    self.subject_count[c_dict["subject"]] = 1.0
+                for cat in c_dict["category2weight"].keys():
+                    if cat in self.cat_count:
+                        self.cat_count[cat] += 1.0
+                    else:
+                        self.cat_count[cat] = 1.0
 
         # initiate constant values
-        for cr in self.criterion.values():
+        for cr in self.criteria.values():
             if cr.is_constant_value:
                 with open(
                     CONSTANT_VALUES_PATH + cr.name + ".json", encoding="utf-8"
@@ -48,28 +50,31 @@ class ListCheen:
 
     def score(self, option) -> float:
         score_sum = 0.0
-        for cr in self.criterion.values():
-            score_sum += (
-                cr.get_score(option)
-                * SUBJECT2WEIGHT[cr.subject]
-                / self.subject_count[cr.subject]
-            )
+        for cr in self.criteria.values():
+            for c, w in cr.category2weight.items():
+                score_sum += (
+                    cr.get_score(option, cat=c)
+                    * self.category_weight[c]
+                    / self.cat_count[c]
+                )
         return score_sum
 
     def print_option(self, option) -> None:
         print("option:", option)
-        for cr in self.criterion.values():
-            print(
-                cr.name,
-                ": ",
-                SUBJECT2WEIGHT[cr.subject],
-                "*",
-                cr.weight,
-                "*",
-                cr.get_score(option, weighted=False),
-                "/",
-                self.subject_count[cr.subject],
-            )
+        for cr in self.criteria.values():
+            
+            for c, w in cr.category2weight.items():
+                print(
+                    cr.name,
+                    ": ",
+                    self.category_weight[c],
+                    "*",
+                    w,
+                    "*",
+                    cr.get_score(option, weighted=False, cat=c),
+                    "/",
+                    self.cat_count[c],
+                )
         print("sum:\t", self.score(option))
 
     def export_list(self, path="./list.tsv"):
@@ -78,5 +83,5 @@ class ListCheen:
             for line in sorted(
                 option2score.items(), key=lambda o2s: o2s[1], reverse=True
             ):
-                outf.write(str(line[1]) + "\t" + " ".join(line[0]) + "\n")
+                outf.write(str(round(line[1],4)) + "\t" + " ".join(line[0]) + "\n")
         print("list exported to " + path)
