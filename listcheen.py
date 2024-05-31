@@ -1,7 +1,7 @@
 # This code is only for algorithmic porpuses and it's by no means optimized!
 
 import json
-from data_structures import OPTIONS, Criteria, ListCheen
+from data_structures import OPTIONS, Criteria
 
 CRITERION_PATH = "./initial_data/criterion.json"
 CONSTANT_VALUES_PATH = "./initial_data/constant_values/"
@@ -13,7 +13,6 @@ class ListCheen:
         self.criterion = {}
         with open(CRITERION_PATH, encoding="utf-8") as f:
             for c_dict in json.load(f):
-
                 self.criterion[c_dict["name"]] = Criteria(
                     c_dict["name"],
                     c_dict["subject"],

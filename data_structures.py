@@ -18,10 +18,10 @@ PROGRAM_TYPES = file2list("./initial_data/daftarcheh/program_types.txt")
 OPTIONS = list(itertools.product(*[FIELDS_OF_STUDY, UNIVERSITIES, PROGRAM_TYPES]))
 
 CRITERIA_SUBJECTS = {
-    "F": FIELDS_OF_STUDY,
-    "U": UNIVERSITIES,
-    "P": PROGRAM_TYPES,
-    "FUP": OPTIONS,
+    "FIELDS_OF_STUDY": FIELDS_OF_STUDY,
+    "UNIVERSITIES": UNIVERSITIES,
+    "PROGRAM_TYPES": PROGRAM_TYPES,
+    "OPTIONS": OPTIONS,
 }  # indicating the part of the subject a criteria
 
 
@@ -44,13 +44,13 @@ class Criteria:
 
     def get_score(self, option: tuple, weighted=True) -> float:
         score = 0.0
-        if self.subject == "F":
+        if self.subject == "FIELDS_OF_STUDY":
             score = self[option[0]]
-        elif self.subject == "U":
+        elif self.subject == "UNIVERSITIES":
             score = self[option[1]]
-        elif self.subject == "P":
+        elif self.subject == "PROGRAM_TYPES":
             score = self[option[2]]
-        elif self.subject == "FUP":
+        elif self.subject == "OPTIONS":
             score = self[option]
 
         if weighted:

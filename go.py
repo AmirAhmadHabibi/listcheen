@@ -16,6 +16,7 @@ def ask_user(lc):
 
 lc = ListCheen()
 ask_user(lc)
+
 lc.export_list()
 lc.print_option(("روانشناسی", "تهران", "روزانه"))
 # lc.print_option(("روانشناسی", "تهران", "شبانه"))
