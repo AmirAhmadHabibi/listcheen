@@ -8,7 +8,6 @@ CONSTANT_VALUES_PATH = "./initial_data/constant_values/"
 CATEGORY_WEIGHT_PATH = "./initial_data/category_weight.json"
 
 
-
 class ListCheen:
     def __init__(self) -> None:
 
@@ -48,6 +47,21 @@ class ListCheen:
 
                         cr[key] = val
 
+    def get_option_vector(self, option) -> dict:
+        """
+        used when comparing two options and tuning their weights
+        """
+        op_dict = {}
+
+        for cr in self.criteria.values():
+            for c, w in cr.category2weight.items():
+                name = c[0] + "|" + cr.name
+                weight = w
+                val = cr.get_score(option, weighted=False, cat=c)
+                normalization_factor = self.category_weight[c] / self.cat_count[c]
+                op_dict[name] = [weight, val, normalization_factor]
+        return op_dict
+
     def score(self, option) -> float:
         score_sum = 0.0
         for cr in self.criteria.values():
@@ -82,5 +96,5 @@ class ListCheen:
             for line in sorted(
                 option2score.items(), key=lambda o2s: o2s[1], reverse=True
             ):
-                outf.write(str(round(line[1],4)) + "\t" + " ".join(line[0]) + "\n")
+                outf.write(str(round(line[1], 4)) + "\t" + " ".join(line[0]) + "\n")
         print("list exported to " + path)
