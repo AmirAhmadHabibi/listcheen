@@ -21,7 +21,7 @@ CRITERION_CATEGORIES = {
     "FIELD_OF_STUDY": FIELDS_OF_STUDY,
     "UNIVERSITY": UNIVERSITIES,
     "PROGRAM_TYPE": PROGRAM_TYPES,
-}  # indicating the part of the subject a criterion
+} # so that the values could be weighted based on category
 
 
 # There are two main group of numbers that we are to figure out:
@@ -44,6 +44,7 @@ class Criterion:
         )
         self.is_constant_value = is_constant_value
 
+        # initiate vallues
         if different_for_each_option:
             value_rows = OPTIONS
         elif len(category2weight) == 1:
@@ -86,4 +87,5 @@ class Criterion:
     def __setitem__(self, key: str, val: float) -> None:
         if val < 0.0 or val > 1.0:
             raise ValueError("Value should be in range of 0.0 t0 1.0")
+        assert key  in self.values, str(key) + " not among values of " + self.name
         self.values[key] = val

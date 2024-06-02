@@ -36,6 +36,7 @@ ask_user(lc)
 # tune(lc, 
 #      ("روانشناسی", "مازندران", "روزانه"), 
 #      ("روانشناسی", "اصفهان", "روزانه"))
+
 lc.export_list()
 # lc.print_option(("روانشناسی", "تهران", "روزانه"))
 # lc.print_option(("روانشناسی", "شیراز", "روزانه"))
@@ -43,7 +44,5 @@ lc.export_list()
 
 # Step : add criterion
 # TODO
-
-# Step : tune stuff
 
 # Step: consider acceptance possibility

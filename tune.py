@@ -19,6 +19,8 @@ def tune(lc, option1, option2):
     print(lc.get_option_vector(option2))
     # what if he wants to change values?
 
+    # TODO minimize total change or minimize the number of changes??!!
+
     while option1 < option2:
         change = option1 - option2
         # try to make change > 0
@@ -30,7 +32,7 @@ def tune(lc, option1, option2):
             else:
                 direction = 1.0
             new_weight = weight + direction * EPSILON
-            # TODO instead of keep_order, precompute bounds of the number
+            
             if keep_order(cr_name, "weight", new_weight):
                 change_weight(cr_name, new_weight)
             if option1 > option2:
